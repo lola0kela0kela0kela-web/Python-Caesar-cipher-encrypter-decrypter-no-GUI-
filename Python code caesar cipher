@@ -1,0 +1,61 @@
+import sys
+
+def main():
+    while True:
+        print("\n1. Encode text")
+        print("2. Decode text")
+        print("3. Exit")
+
+        choice = int(input("\nSelect from 1-3: "))
+
+        if choice == 3:
+            sys.exit()
+
+        if choice not in (1, 2):
+            print("\nInvalid number!")
+            continue
+
+        text = input("\nPlease type in your text: ")
+
+
+        while True:
+            try:
+                shift = int(input("\nEnter your shift:"))
+                break
+            except ValueError:
+                print("\nOopsies! Please type in an integer!")
+                continue
+
+        if choice == 1:
+            result = caesar_encode(text, shift)
+            print(f"\nEncrypted: {result}")
+        elif choice == 2:
+            result = caesar_decode(text, shift)
+            print(f"\nDecrypted: {result}")
+
+def caesar_encode(text, shift):
+    shift = shift % 26
+    result = []
+    for i in text:
+        if i.isalpha():
+            if i.isupper():
+                base = ord("A")
+            else:
+                base = ord("a")
+
+            position = ord(i) - base
+            new_position = (position + shift) % 26
+            new_i = chr(new_position + base)
+
+            result.append(new_i)
+
+        else:
+            result.append(i)
+
+    return "".join(result)
+
+def caesar_decode(text, shift):
+    return caesar_encode(text, -shift)
+
+if __name__ == "__main__":
+    main()
